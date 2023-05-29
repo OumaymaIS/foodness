@@ -1,0 +1,5 @@
+{
+    "mongo": 
+        {"uri":"mongodb+srv://abbassimohamed:medEsprit2023@foodnessapi.odphk2v.mongodb.net/foodness",
+        "localhost":"mongodb://localhost:27017/foodness" }
+}
