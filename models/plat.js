@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 var Plat = new Schema({
-  Nom du Plat: String,
+  NomduPlat: String,
   Compostion: String,
   Details: String
 });
