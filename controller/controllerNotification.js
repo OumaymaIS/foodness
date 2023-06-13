@@ -1,24 +1,7 @@
 const Notification = require("../models/notification/notification");
 const User=require("../models/user");
 const ObjectID = require("mongoose").Types.ObjectId;
-/*  usersType : String,
-  object:String,
-  content:String,
-  isMultiple:{
-    type:Boolean,
-    default:true,
-  },
-  consultingBy:{
-    type:[
-     { type: Schema.Types.ObjectId, 
-      ref: 'user'}
-    ]
-  },
-  receiverId :{
-    type: Schema.Types.ObjectId, 
-      ref: 'user'
-  }
-*/
+
 module.exports.find = async (req, res) => {
   if (!ObjectID.isValid(req.params.iduser)) 
   return res.status(400).send({

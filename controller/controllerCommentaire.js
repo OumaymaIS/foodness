@@ -3,6 +3,9 @@ const ObjectID = require("mongoose").Types.ObjectId;
 const fs=require("fs");
 const path = require('path');
 const Notification  =require("../models/notification/notification");
+const axios = require('axios');
+const FormData = require('form-data');
+require('dotenv').config();
 
 /*  refUser:  Schema.Types.ObjectId, ref: 'user',
   refDon:  Schema.Types.ObjectId, ref: 'Don',
@@ -31,6 +34,33 @@ const Notification  =require("../models/notification/notification");
       });
     });
   }
+   async function  mot_inapproprie_api(ch){
+    let result=false;
+
+  data = new FormData();
+data.append('text', ch);
+data.append('lang', 'en');
+data.append('opt_countries', 'us,gb,fr');
+data.append('mode', 'standard');
+
+await axios({
+  url: 'https://api.sightengine.com/1.0/text/check.json',
+  method:'post',
+  data: data,
+  headers: data.getHeaders()
+})
+.then(function (response) {
+  // on success: handle response
+  console.log(response.data.profanity.matches)
+ result=response.data.profanity.matches.length>0;
+})
+.catch(function (error) {
+  // handle error
+  if (error.response) console.log(error.response.data);
+  else console.log(error.message);
+});
+return result;
+}
 async function mot_inapproprie(ch){
   const inapproprie=await getInapproprie();
   
@@ -65,8 +95,8 @@ module.exports.Add = async (req, res) => {
       "error": "Invalid Id Don"
     });
   }else{
-
-  const isPublic= ! (await mot_inapproprie(content));
+    console.log(await mot_inapproprie_api(content));
+  const isPublic= ! (await mot_inapproprie_api(content));
   const c=new Commentaire({
     refUser,
     refDon,

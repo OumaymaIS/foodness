@@ -11,9 +11,10 @@ var usersRouter = require('./routes/users');
 var donRouter = require('./routes/don/don_route');
 var commentaireRouter=require('./routes/commentaire/commentaire_route')
 var notificationaireRouter = require('./routes/notification/notification_route');
+var organisationRouter=require('./routes/organisation/organisation');
 var app = express();
 var port =3000;
-mongoose
+mongoose 
 .connect(configDB.mongo.localhost, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -36,7 +37,7 @@ app.use('/users', usersRouter);
 app.use('/dons',donRouter);
 app.use('/commentaire',commentaireRouter);
 app.use('/notification',notificationaireRouter);
-
+app.use('/organisation',organisationRouter);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
