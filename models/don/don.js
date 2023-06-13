@@ -1,12 +1,31 @@
 const mongoose = require("mongoose");
-var Schema = mongoose.Schema;
-var Don = new Schema({
-  NomduPlat: String,
-  Compostion: String,
-  Details: String,
-  Quantite:
-  {type:Number,
-  default:1
-  }
+const Schema = mongoose.Schema;
+
+const DonSchema = new Schema({
+  RefOrganization: {
+    type: Schema.Types.ObjectId,
+    ref: "organisation",
+  },
+  Target: Number,
+  Description:String,
+  ProgessValue:{
+    type: Number,
+    defaultValue:0,
+  },
+  Dons: [
+    {
+      resto: {
+        type: Schema.Types.ObjectId,
+        ref: "organisation",
+      },
+      plat: {
+          type: Schema.Types.ObjectId,
+          ref: "organisation",
+        },
+      
+      quantite: Number,
+    },
+  ],
 });
-module.exports = mongoose.model("Don", Don);
+
+module.exports = mongoose.model("Don", DonSchema);

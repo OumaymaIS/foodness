@@ -1,17 +1,64 @@
 const Don = require("../models/don/don");
 const ObjectID = require("mongoose").Types.ObjectId;
+/* RefOrganization: {
+    type: Schema.Types.ObjectId,
+    ref: "organisation",
+  },
+  Target: Number,
+  Description: String
+  Dons: [
+    {
+      resto: {
+        type: Schema.Types.ObjectId,
+        ref: "organisation",
+      },
+      plats: [
+        {
+          type: Schema.Types.ObjectId,
+          ref: "organisation",
+        },
+      ],
+      quantite: Number,
+    },
+  ],*/
 
+module.exports.Participer =async(req, res) => {
+  const{
+    resto,
+      plat,
+    donId,
+    quantite,
+  }=req.body;
+  if (!ObjectID.isValid(donId))
+  return res.status(400).send({
+    "message": "Invalid id",
+  })
+  d= await Don.findById(donId);
+  d.Dons.push({
+    resto:resto,
+    plat:plat,
+    quantite:quantite 
+  }) 
+  d.ProgessValue=d.ProgessValue+quantite;
+
+  await Don.save();
+  res.send(d);
+
+
+  
+}
 module.exports.Add = async (req, res) => {
   const {
-    NomduPlat,
-    Compostion,
-    Details,
+    RefOrganization,
+    Target,
+    Description
   } = req.body;
-  
+  const ProgessValue=0;
   const D= new Don({
-    NomduPlat,
-    Compostion,
-    Details,
+    RefOrganization,
+    Target,
+    Description,
+    ProgessValue
   })
   try{
     await D.save();
@@ -61,6 +108,10 @@ module.exports.delete = async (req, res) => {
     res.status(500).send(err);
   }   
 };
+/* RefOrganization,
+    Target,
+    Description*/
+
 module.exports.update = async (req, res) => {
   
   if (!ObjectID.isValid(req.body.id))
@@ -70,20 +121,12 @@ module.exports.update = async (req, res) => {
   let updatedData = {};
   
 
-  if(req.body.NomduPlat){
-    updatedData.NomduPlat=req.body.NomduPlat;
+  if(req.body.Target){
+    updatedData.Target=req.body.Target;
   }
 
-  if(req.body.Compostion){
-    updatedData.Compostion=req.body.Compostion;
-  }
-  
-  if(req.body.Details){
-    updatedData.Details=req.body.Details;
-  }
-    
-  if(req.body.Quantite){
-    updatedData.Quantite=req.body.Quantite;
+  if(req.body.Description){
+    updatedData.Description=req.body.Description;
   }
   try{
     const updated=await Don.findByIdAndUpdate(req.body.id,updatedData,{

@@ -8,14 +8,14 @@ var mongoose = require("mongoose");
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-var donRouter = require('./routes/don/don_route');
+var donRoutes=require('./routes/don/don_route');
 var commentaireRouter=require('./routes/commentaire/commentaire_route')
 var notificationaireRouter = require('./routes/notification/notification_route');
 var organisationRouter=require('./routes/organisation/organisation');
 var app = express();
 var port =3000;
 mongoose 
-.connect(configDB.mongo.localhost, {
+.connect(configDB.mongo.uri, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
@@ -34,7 +34,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/dons',donRouter);
+app.use('/dons',donRoutes);
 app.use('/commentaire',commentaireRouter);
 app.use('/notification',notificationaireRouter);
 app.use('/organisation',organisationRouter);
