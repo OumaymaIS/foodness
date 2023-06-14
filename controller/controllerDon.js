@@ -1,28 +1,7 @@
 const Don = require("../models/don/don");
 const ObjectID = require("mongoose").Types.ObjectId;
-/* RefOrganization: {
-    type: Schema.Types.ObjectId,
-    ref: "organisation",
-  },
-  Target: Number,
-  Description: String
-  Dons: [
-    {
-      resto: {
-        type: Schema.Types.ObjectId,
-        ref: "organisation",
-      },
-      plats: [
-        {
-          type: Schema.Types.ObjectId,
-          ref: "organisation",
-        },
-      ],
-      quantite: Number,
-    },
-  ],*/
 
-module.exports.Participer =async(req, res) => {
+module.exports.Participer = async (req, res) => {
   const{
     resto,
       plat,
@@ -41,7 +20,7 @@ module.exports.Participer =async(req, res) => {
   }) 
   d.ProgessValue=d.ProgessValue+quantite;
 
-  await Don.save();
+  await d.save();
   res.send(d);
 
 
@@ -72,7 +51,7 @@ module.exports.Add = async (req, res) => {
 }
 module.exports.findAll = async (req, res) => {
   try {
-    const docs = await Don.find({}).exec();
+    const docs = await Don.find();
     res.status(200).send(docs);
   } catch (err) {
     res.status(500).send(err);
@@ -86,7 +65,9 @@ module.exports.findById = async (req, res) => {
 
   try {
    const docs= await  Don.findById(req.params.id);
-      if (docs) res.send(docs);
+    if (docs){res.send(docs);} else{
+      res.status(201).send({docs:docs});
+    } 
     
   } catch (err) {
     res.status(500).send(err);

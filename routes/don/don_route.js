@@ -2,7 +2,7 @@
 var express = require('express');
 var router = express.Router();
 var controllerDon=require("../../controller/controllerDon");
-router.post('/participer',controllerDon.Participer)
+router.post("/Participer",controllerDon.Participer)
 router.post("/add",controllerDon.Add);
 router.get("/findAll",controllerDon.findAll);
 router.put("/update",controllerDon.update);
