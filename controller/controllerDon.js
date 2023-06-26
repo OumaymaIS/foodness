@@ -4,7 +4,7 @@ const ObjectID = require("mongoose").Types.ObjectId;
 module.exports.Participer = async (req, res) => {
   const{
     resto,
-      plat,
+    plat,
     donId,
     quantite,
   }=req.body;
@@ -30,7 +30,8 @@ module.exports.Add = async (req, res) => {
   const {
     RefOrganization,
     Target,
-    Description
+    Description,
+    RefTypeOfDon
   } = req.body;
   const ProgessValue=0;
   const D= new Don({
@@ -109,6 +110,7 @@ module.exports.update = async (req, res) => {
   if(req.body.Description){
     updatedData.Description=req.body.Description;
   }
+
   try{
     const updated=await Don.findByIdAndUpdate(req.body.id,updatedData,{
       new:true,

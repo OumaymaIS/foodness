@@ -46,7 +46,7 @@ data.append('mode', 'standard');
 await axios({
   url: 'https://api.sightengine.com/1.0/text/check.json',
   method:'post',
-  data: data,
+  data: data,  
   headers: data.getHeaders()
 })
 .then(function (response) {
